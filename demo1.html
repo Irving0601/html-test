@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>demo1</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  </head>
+  <body>
+    <div id="container">
+      <div id="header">
+        <div id="title">demo-01</div>
+        <div id="search-area">
+          ID: <input type="text" v-model="id" /> Name:
+          <input type="text" v-model="name" />
+          <input type="button" value="add" @click="addFn" />
+          search: <input type="text" />
+        </div>
+      </div>
+      <hr />
+      <div id="content">
+        <div id="table-content">
+          <table>
+            <thead>
+              <th>ID</th>
+              <th>Name</th>
+              <th>date</th>
+              <th>operation</th>
+            </thead>
+            <tbody v-for="(item, index) in tableData" :key="index">
+              <tr>
+                <td v-text="item.id"></td>
+                <td v-text="item.name"></td>
+                <td v-text="item.date"></td>
+                <td>
+                  <a
+                    href="https://www.baidu.com"
+                    @click.prevent="delFn(item.id)"
+                    >delete</a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- <div v-for="(item, index) in tableData" :key="index">{{item}}</div> -->
+        </div>
+        <div id="date-info">{{ dateInfo | newName}}</div>
+      </div>
+    </div>
+
+    <script>
+      let vm = new Vue({
+        el: '#container',
+        data: {
+          id: '',
+          name: '',
+          dateInfo: new Date(),
+          tableData: [
+            { id: '1', name: 'bill', date: '2020-07-08' },
+            { id: '2', name: 'mike', date: '2020-07-09' }
+            // { id: '3', name: '3mike', date: '2020-07-09' },
+            // { id: '4', name: '4mike', date: '2020-07-09' },
+            // { id: '5', name: '5mike', date: '2020-07-09' }
+          ]
+        },
+        methods: {
+          addFn() {
+            this.dateInfo = new Date();
+            let obj = {
+              id: this.id,
+              name: this.name,
+              date: this.dateInfo
+            };
+            this.tableData.push(obj);
+          },
+          delFn(_id) {
+            let _index = this.tableData.findIndex(val => {
+              if (val.id == _id) {
+                return val;
+              }
+            });
+            this.tableData.splice(_index, 1);
+          }
+        },
+        filters: {
+          newName: val => {
+            return val;
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
